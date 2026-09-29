@@ -91,31 +91,25 @@ nav.primary a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--ac
   border:1px solid var(--blue);
 }
 .btn:hover{background:var(--blue-deep);border-color:var(--blue-deep)}
-.btn.ghost{background:var(--paper-2);color:var(--blue);border-color:var(--blue)}
-.btn.ghost:hover{border-color:var(--blue-deep);background:#DEE6F5;color:var(--blue-deep)}
 
 /* ---------- pages ---------- */
-main{padding-top:64px}
-.eyebrow-note{font-size:.84rem;color:var(--muted)}
+main{padding-top:56px}
 
 h1.display{font-size:clamp(2.1rem,5.2vw,3.35rem);line-height:1.07;max-width:17ch}
 .tagline-img{display:block;height:auto;width:min(360px,70%);margin:14px 0 4px}
 h2.sect{font-size:clamp(1.4rem,3vw,1.9rem);line-height:1.18;margin-bottom:.55em}
-h3.sub{font-size:1.14rem;line-height:1.3;margin-bottom:.35em}
 .lede{font-size:1.14rem;color:var(--muted);max-width:60ch;margin-top:1.1em}
 .hr{height:1px;background:var(--rule);border:0;margin:56px 0}
 
 /* ---------- the year band ---------- */
 .year{margin:46px 0 8px}
-.year-head{display:block;border-bottom:1px solid var(--rule);padding-bottom:0;margin-bottom:0}
+.year-head{border-bottom:1px solid var(--rule)}
 .year-head h2{font-family:Newsreader,Georgia,serif;font-size:1.06rem;font-weight:500;margin:0}
-.year-head span{font-size:.82rem;color:var(--muted)}
 .year-grid{display:grid;grid-template-columns:repeat(6,1fr)}
 .cell{border-right:1px solid var(--rule);padding:16px 15px 20px}
 .cell:last-child{border-right:0}
 .cell .mo{font-size:.75rem;letter-spacing:.06em;color:var(--accent);font-weight:600;margin-bottom:6px}
 .cell .what{font-size:.93rem;line-height:1.38}
-.year-title h2{margin:0}
 .tabs{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
 .tabs button{
   font-family:inherit;font-size:.86rem;color:var(--muted);
@@ -152,7 +146,6 @@ h3.sub{font-size:1.14rem;line-height:1.3;margin-bottom:.35em}
 @media (max-width:760px){
   .deflist{grid-template-columns:1fr}
   .deflist .desc{border-top:0;padding-top:0}
-  .deflist > div.desc{border-top:0;padding-top:4px}
   .deflist .term{padding-right:0;padding-bottom:6px}
 }
 
@@ -195,8 +188,6 @@ footer ul{list-style:none;margin:0;padding:0}
 footer li{margin-bottom:5px}
 @media (max-width:700px){.foot-grid{grid-template-columns:1fr 1fr}}
 
-.flag{border-left:3px solid var(--accent);background:var(--paper-2);padding:12px 16px;font-size:.88rem;color:var(--muted);margin:18px 0;max-width:64ch}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 
 </head>
@@ -235,7 +226,7 @@ footer li{margin-bottom:5px}
     <div class="year">
       <div class="year-head">
         <div class="year-title">
-          <h2>The year your office actually runs on</h2>
+          <h2>The fiscal year your office runs on</h2>
         </div>
         <div class="tabs" role="tablist" aria-label="Fiscal year start">
           <button type="button" role="tab" id="tab-jul" aria-controls="panel-jul" aria-selected="true">July&ndash;June</button>
@@ -360,5 +351,27 @@ footer li{margin-bottom:5px}
     <p style="margin-top:28px;font-size:.82rem">© 2026 Congregation Consulting LLC</p>
   </div>
 </footer>
-</body>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tabs [role="tab"]'));
+  if(!tabs.length)return;
+  function select(tab){
+    tabs.forEach(function(t){
+      var on=t===tab;
+      t.setAttribute('aria-selected',on);
+      t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+    });
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(t)});
+    t.addEventListener('keydown',function(e){
+      var n=e.key==='ArrowRight'?i+1:e.key==='ArrowLeft'?i-1:-1;
+      if(n<0)return;
+      n=(n+tabs.length)%tabs.length;
+      select(tabs[n]);tabs[n].focus();
+    });
+  });
+})();
+</script></body>
 </html>
