@@ -155,6 +155,23 @@ h2.sect{font-size:clamp(1.4rem,3vw,1.9rem);line-height:1.18;margin-bottom:.55em}
 .photo-break{margin:40px 0 0;padding:0}
 .photo-break img{display:block;width:100%;height:clamp(220px,38vw,420px);object-fit:cover}
 .strip{background:var(--paper-2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:30px 0;margin:56px 0}
+
+.testimonial{
+  max-width:640px;margin:48px 0;padding-left:24px;
+  border-left:3px solid var(--accent);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.testimonial.in-view{opacity:1;transform:translateY(0)}
+.testimonial blockquote{margin:0 0 .6em;font-family:Newsreader,Georgia,serif;font-style:italic;font-size:1.14rem;line-height:1.5;color:var(--ink)}
+.testimonial .attrib{font-size:.88rem;color:var(--muted)}
+.testimonial .attrib strong{color:var(--ink);font-weight:600;font-style:normal}
+.testimonial-pair{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.testimonial-pair .testimonial{margin:40px 0}
+@media (max-width:760px){.testimonial-pair{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){
+  .testimonial{opacity:1;transform:none;transition:none}
+}
 .strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
 .strip .n{font-family:Newsreader,Georgia,serif;font-size:1.65rem;line-height:1.1;color:var(--blue)}
 .strip .l{font-size:.92rem;color:var(--muted);margin-top:5px;max-width:34ch}
@@ -192,6 +209,16 @@ footer li{margin-bottom:5px}
 
 </style>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BWEW5MRXG6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BWEW5MRXG6');
+</script>
+
+<noscript><style>.testimonial{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
 
@@ -258,6 +285,17 @@ footer li{margin-bottom:5px}
       <div class="desc"><p>Moving onto ShulCloud, or moving payment processing onto SIP, and the data cleanup is the part everyone underestimates.</p></div>
     </div>
 
+    <div class="testimonial-pair">
+      <div class="testimonial">
+        <blockquote>"When Temple Beth Or decided to move to ShulCloud, several administrators and executive directors warned us the switch would be painful. Working with Joseph Greenberg proved them wrong. We had no downtime and very few delays or issues, and we didn't lose any historical data from our 41 years."</blockquote>
+        <p class="attrib"><strong>Mark Gruenberg</strong><br>President, Temple Beth Or, Dayton, OH</p>
+      </div>
+      <div class="testimonial">
+        <blockquote>"Joseph is knowledgeable, patient, and extremely responsive. He is always available when we need him and quickly resolves issues. I highly recommend him to any synagogue looking for ShulCloud assistance."</blockquote>
+        <p class="attrib"><strong>Michael Reichwald</strong><br>Treasurer, Young Israel of Jamaica Estates, Queens, NY</p>
+      </div>
+    </div>
+
     <hr class="hr">
 
     <h2 class="sect">How the work usually goes</h2>
@@ -312,8 +350,18 @@ footer li{margin-bottom:5px}
         </ul>
       </div>
     </div>
-    <p style="margin-top:28px;font-size:.82rem">© 2026 Congregation Consulting LLC</p>
+    <p style="margin-top:28px;font-size:.82rem">© 2026 Congregation Consulting LLC · <a href="privacy.html">Privacy</a></p>
   </div>
 </footer>
-</body>
+<script>
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.testimonial'));
+  if(!els.length)return;
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in-view')});return}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in-view');io.unobserve(en.target)}});
+  },{threshold:.15});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script></body>
 </html>
